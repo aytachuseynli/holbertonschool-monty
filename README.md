@@ -5,7 +5,7 @@ C - Stacks, Queues - LIFO, FIFO
 To use the Monty Interpreter, follow these steps:
 
 Clone the repository:
-git clone https://github.com/kazimovzaman2/holbertonschool-monty
+git clone https://github.com/aytachuseynli/holbertonschool-monty
 cd monty-interpreter
 Compile the code:
 gcc -Wall -Werror -Wextra -pedantic *.c -o monty
