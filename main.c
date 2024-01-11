@@ -1,5 +1,6 @@
 #include "monty.h"
 
+
 /**
  * main - entry point
  *
@@ -8,17 +9,38 @@
  *
  * Return: EXIT_SUCCESS or EXIT_FAILURE
  */
-int main(void)
+int main(int argc, char *argv[])
 {
-    stack_t *stack = NULL;
+	FILE *file;
+	char *line = NULL;
+	size_t len = 0, line_number = 0;
+	stack_t *stack = NULL;
+	instruction_t instructions[] = {
+		{"push", push}, {"pall", pall}, {"pint", pint},
+		{"pop", pop}, {"swap", swap}, {"add", add},
+		{"nop", nop}, {NULL, NULL}
+	};
 
-    push(&stack, 10, 1);
-    push(&stack, 20, 2);
-    push(&stack, 30, 3);
+	if (argc != 2)
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE); }
 
-    printf("Stack after pushes:\n");
-    pall(&stack, 0);
+	file = fopen(argv[1], "r");
+	if (!file)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		exit(EXIT_FAILURE); }
 
-    return 0;
+	while (getline(&line, &len, file) != -1)
+	{
+		line_number++;
+		run_instruction(line, &stack, instructions, line_number);
+	}
+
+	free_stack(stack);
+
+	free(line);
+	fclose(file);
+	return (EXIT_SUCCESS);
 }
-
