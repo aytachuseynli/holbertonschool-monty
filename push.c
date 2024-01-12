@@ -6,21 +6,22 @@
  * @line_number: The line number in the Monty bytecode file.
  * @value: The value to push onto the stack.
  */
-void push(stack_t **stack, int value, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *new_node = malloc(sizeof(stack_t));
+	stack_t *new = malloc(sizeof(stack_t));
 
-	if (new_node == NULL)
+	if (!new)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	new_node->n = value;
-	new_node->prev = NULL;
-	new_node->next = *stack;
 
-	if (*stack != NULL)
-	(*stack)->prev = new_node;
+	new->n = line_number;
+	new->prev = NULL;
+	new->next = *stack;
 
-	*stack = new_node;
+	if (*stack)
+		(*stack)->prev = new;
+
+	*stack = new;
 }
